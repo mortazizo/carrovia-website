@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Carrovia — Let Agencies Compete For You</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#0A1628;--navym:#112240;--navyl:#1B3461;
+  --blue:#2563EB;--blue-light:#EFF4FF;--blue-mid:#BFCFF8;
+  --orange:#F97316;--orange-light:#FFF7ED;
+  --green:#10B981;--green-light:#ECFDF5;--green-dark:#065F46;
+  --white:#FFFFFF;--off:#F8FAFC;
+  --g100:#F1F5F9;--g200:#E2E8F0;--g300:#CBD5E1;
+  --g400:#94A3B8;--g600:#475569;--g800:#1E293B;
+  --red:#EF4444;--red-light:#FEF2F2;
+  --fn:'DM Sans',sans-serif;--fm:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--fn);background:var(--off);color:var(--g800);min-height:100vh;-webkit-font-smoothing:antialiased;}
+.header{background:var(--navy);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.3);}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.logo-mark{width:36px;height:36px;background:var(--navyl);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-mark svg{width:24px;height:24px;}
+.logo-name{font-size:20px;font-weight:700;color:white;letter-spacing:-0.3px;}
+.header-free{background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:#6EE7B7;font-family:var(--fm);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 12px;border-radius:100px;}
+.progress-wrap{background:white;border-bottom:1px solid var(--g200);padding:12px 20px;overflow-x:auto;}
+.progress-steps{display:flex;align-items:center;min-width:520px;max-width:660px;margin:0 auto;}
+.ps{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;}
+.ps-dot{width:26px;height:26px;border-radius:50%;border:2px solid var(--g200);background:white;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--g400);font-family:var(--fm);transition:all 0.3s;}
+.ps.active .ps-dot{border-color:var(--blue);background:var(--blue);color:white;}
+.ps.done .ps-dot{border-color:var(--green);background:var(--green);color:white;}
+.ps-label{font-size:9px;font-weight:500;color:var(--g400);white-space:nowrap;font-family:var(--fm);}
+.ps.active .ps-label{color:var(--blue);}
+.ps.done .ps-label{color:var(--green);}
+.ps-line{flex:1;height:2px;background:var(--g200);margin:0 3px;margin-bottom:13px;transition:background 0.3s;min-width:10px;}
+.ps-line.done{background:var(--green);}
+.main{max-width:620px;margin:0 auto;padding:28px 20px 80px;}
+.screen{display:none;}
+.screen.active{display:block;}
+.screen-tag{font-size:11px;font-weight:500;color:var(--blue);font-family:var(--fm);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;}
+.screen-title{font-size:clamp(22px,4vw,30px);font-weight:700;color:var(--navy);letter-spacing:-0.6px;line-height:1.15;margin-bottom:8px;}
+.screen-title .hl{color:var(--blue);}
+.screen-sub{font-size:14px;color:var(--g600);line-height:1.6;margin-bottom:22px;}
+.free-banner{background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:12px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px;}
+.free-banner-text{font-size:13px;font-weight:600;color:var(--blue);}
+.free-banner-sub{font-size:11px;color:var(--blue);opacity:0.75;margin-top:2px;}
+.free-pill{background:var(--blue);color:white;font-size:10px;font-weight:700;padding:4px 10px;border-radius:100px;font-family:var(--fm);letter-spacing:0.04em;white-space:nowrap;}
+.dot-wrap{margin-bottom:20px;}
+.dot-row{display:flex;gap:10px;}
+.dot-input{flex:1;padding:13px 16px;border:2px solid var(--g200);border-radius:12px;font-size:18px;font-weight:600;font-family:var(--fm);color:var(--navy);outline:none;transition:border-color 0.2s;letter-spacing:0.05em;}
+.dot-input:focus{border-color:var(--blue);}
+.dot-btn{padding:13px 20px;background:var(--navy);color:white;border:none;border-radius:12px;font-size:14px;font-weight:600;font-family:var(--fn);cursor:pointer;white-space:nowrap;transition:opacity 0.15s;}
+.dot-btn:hover{opacity:0.85;}
+.dot-btn:disabled{opacity:0.45;cursor:not-allowed;}
+.magic-wrap{background:var(--navy);border-radius:14px;padding:18px 20px;margin-bottom:18px;}
+.magic-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.1);}
+.magic-spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.15);border-top-color:var(--orange);border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0;}
+.magic-title{font-size:12px;font-weight:500;color:rgba(255,255,255,0.65);font-family:var(--fm);}
+.magic-step{display:flex;align-items:center;gap:10px;margin-bottom:10px;opacity:0;transform:translateX(-6px);transition:opacity 0.3s,transform 0.3s;}
+.magic-step.visible{opacity:1;transform:translateX(0);}
+.magic-step-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.magic-step-icon.pending{background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.12);}
+.magic-step-icon.running{background:rgba(249,115,22,0.15);border:1.5px solid rgba(249,115,22,0.4);}
+.magic-step-icon.done{background:rgba(16,185,129,0.2);border:1.5px solid rgba(16,185,129,0.5);}
+.magic-step-icon.running::after{content:'';width:8px;height:8px;border:1.5px solid transparent;border-top-color:var(--orange);border-radius:50%;animation:spin 0.6s linear infinite;display:block;}
+.magic-step-icon.done::after{content:'✓';color:var(--green);font-size:10px;font-weight:700;}
+.magic-step-content{flex:1;}
+.magic-step-label{font-size:11px;font-weight:500;font-family:var(--fm);margin-bottom:3px;}
+.magic-step.pending .magic-step-label{color:rgba(255,255,255,0.25);}
+.magic-step.running .magic-step-label{color:var(--orange);}
+.magic-step.done .magic-step-label{color:rgba(255,255,255,0.7);}
+.magic-bar-track{height:2px;background:rgba(255,255,255,0.06);border-radius:100px;overflow:hidden;}
+.magic-bar-fill{height:100%;border-radius:100px;width:0%;transition:width 0.6s ease;background:var(--orange);}
+.magic-step.done .magic-bar-fill{background:var(--green);width:100%!important;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.fmcsa-result{background:var(--green-light);border:1.5px solid #A7F3D0;border-radius:14px;padding:18px;margin-bottom:16px;}
+.fmcsa-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(16,185,129,0.2);}
+.fmcsa-icon{width:34px;height:34px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.fmcsa-icon svg{width:16px;height:16px;stroke:white;}
+.fmcsa-title{font-size:15px;font-weight:700;color:var(--green-dark);flex:1;}
+.fmcsa-sub{font-size:11px;color:#047857;margin-top:2px;}
+.fmcsa-gov{background:var(--green-dark);color:#6EE7B7;font-size:9px;font-weight:700;font-family:var(--fm);letter-spacing:0.1em;padding:3px 8px;border-radius:5px;flex-shrink:0;}
+.fmcsa-section{font-size:9px;font-weight:700;color:#047857;font-family:var(--fm);letter-spacing:0.1em;text-transform:uppercase;margin:12px 0 6px;padding-bottom:4px;border-bottom:1px solid rgba(16,185,129,0.2);}
+.fmcsa-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.fmcsa-field{background:rgba(255,255,255,0.6);border-radius:8px;padding:8px 10px;}
+.fmcsa-field.full{grid-column:1/-1;}
+.fmcsa-label{font-size:9px;font-weight:600;color:#047857;font-family:var(--fm);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;}
+.fmcsa-value{font-size:12px;font-weight:600;color:var(--green-dark);}
+.fmcsa-value.mono{font-family:var(--fm);}
+.fmcsa-footer{font-size:9px;color:#047857;font-family:var(--fm);text-align:center;margin-top:12px;padding-top:10px;border-top:1px solid rgba(16,185,129,0.2);}
+.field-group{margin-bottom:16px;}
+.field-label{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px;display:block;}
+.field-hint{font-size:13px;color:var(--g600);margin-bottom:7px;line-height:1.5;}
+.field-input,.field-select,.field-textarea{width:100%;padding:10px 13px;border:1.5px solid var(--g200);border-radius:10px;font-size:14px;font-family:var(--fn);color:var(--navy);background:white;outline:none;transition:border-color 0.2s;appearance:none;}
+.field-input:focus,.field-select:focus,.field-textarea:focus{border-color:var(--blue);}
+.field-textarea{resize:vertical;min-height:80px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.sec-title{font-size:16px;font-weight:700;color:var(--navy);margin:24px 0 3px;letter-spacing:-0.3px;}
+.sec-sub{font-size:13px;color:var(--g600);margin-bottom:14px;line-height:1.5;}
+.sec-divider{border:none;border-top:1px solid var(--g200);margin:22px 0;}
+.entity-card{background:white;border:1.5px solid var(--g200);border-radius:13px;padding:18px;margin-bottom:12px;animation:slideDown 0.25s ease;}
+@keyframes slideDown{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+.entity-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.entity-title{font-size:13px;font-weight:600;color:var(--navy);display:flex;align-items:center;gap:8px;}
+.entity-num{width:22px;height:22px;border-radius:50%;background:var(--blue);color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--fm);flex-shrink:0;}
+.entity-remove{background:var(--red-light);border:none;color:var(--red);font-size:11px;font-weight:500;padding:4px 10px;border-radius:7px;cursor:pointer;font-family:var(--fn);}
+.add-btn{width:100%;padding:12px;border:2px dashed var(--g300);border-radius:11px;background:transparent;color:var(--g600);font-size:13px;font-weight:500;font-family:var(--fn);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all 0.2s;margin-bottom:6px;}
+.add-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light);}
+.add-btn svg{width:14px;height:14px;}
+.add-limit{font-size:10px;color:var(--g400);text-align:center;font-family:var(--fm);margin-bottom:18px;}
+.pill-group{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px;}
+.pill{padding:7px 14px;border:1.5px solid var(--g200);border-radius:100px;font-size:12px;font-weight:500;color:var(--g600);cursor:pointer;transition:all 0.15s;background:white;user-select:none;}
+.pill:hover{border-color:var(--blue);color:var(--blue);}
+.pill.selected{border-color:var(--blue);background:var(--blue-light);color:var(--blue);}
+.yn-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--g100);}
+.yn-row:last-child{border-bottom:none;}
+.yn-question{font-size:13px;color:var(--g800);line-height:1.5;flex:1;}
+.yn-question span{font-size:11px;color:var(--g400);display:block;margin-top:2px;}
+.yn-btns{display:flex;gap:6px;flex-shrink:0;}
+.yn-btn{padding:5px 14px;border:1.5px solid var(--g200);border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;font-family:var(--fn);background:white;color:var(--g600);transition:all 0.15s;}
+.yn-btn.yes.active{border-color:var(--green);background:var(--green-light);color:var(--green-dark);}
+.yn-btn.no.active{border-color:var(--red);background:var(--red-light);color:var(--red);}
+.progress-label{background:var(--orange-light);border:1px solid #FED7AA;border-radius:10px;padding:12px 14px;margin-bottom:20px;font-size:13px;color:#9A3412;line-height:1.6;}
+.progress-label strong{font-weight:600;color:#7C2D12;}
+.privacy-badge{background:var(--navy);border-radius:12px;padding:13px 16px;display:flex;gap:12px;align-items:center;margin-bottom:18px;}
+.privacy-badge svg{width:18px;height:18px;stroke:var(--orange);flex-shrink:0;}
+.privacy-badge-text{font-size:12px;color:rgba(255,255,255,0.8);line-height:1.5;}
+.privacy-badge-text strong{color:white;}
+.consent-box{background:var(--g100);border:1.5px solid var(--g200);border-radius:11px;padding:14px;margin-bottom:16px;}
+.consent-box-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:5px;}
+.consent-box-body{font-size:13px;color:var(--g600);line-height:1.6;}
+.consent-check-wrap{display:flex;gap:11px;align-items:flex-start;padding:14px;background:white;border:2px solid var(--g200);border-radius:11px;cursor:pointer;margin-bottom:14px;transition:border-color 0.2s;}
+.consent-check-wrap.checked{border-color:var(--blue);background:var(--blue-light);}
+.consent-checkbox{width:19px;height:19px;border:2px solid var(--g300);border-radius:5px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.consent-check-wrap.checked .consent-checkbox{background:var(--blue);border-color:var(--blue);}
+.consent-check-wrap.checked .consent-checkbox::after{content:'✓';font-size:11px;color:white;font-weight:700;}
+.consent-check-text{font-size:12px;color:var(--g600);line-height:1.6;}
+.consent-check-text span{color:var(--navy);font-weight:600;}
+.sig-wrap{border:1.5px solid var(--g200);border-radius:11px;overflow:hidden;margin-bottom:8px;background:white;}
+.sig-header{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;border-bottom:1px solid var(--g200);background:var(--g100);}
+.sig-label{font-size:11px;font-weight:500;color:var(--g600);}
+.sig-clear{background:none;border:none;color:var(--blue);font-size:11px;cursor:pointer;font-family:var(--fn);}
+canvas#sigCanvas{display:block;width:100%;height:110px;cursor:crosshair;touch-action:none;}
+.nav-btns{display:flex;gap:10px;margin-top:28px;}
+.btn-back{flex:1;padding:13px;background:white;border:1.5px solid var(--g200);border-radius:11px;font-size:14px;font-weight:500;color:var(--g600);cursor:pointer;font-family:var(--fn);transition:all 0.15s;}
+.btn-back:hover{border-color:var(--navy);color:var(--navy);}
+.btn-next{flex:2;padding:13px;background:var(--orange);border:none;border-radius:11px;font-size:14px;font-weight:600;color:white;cursor:pointer;font-family:var(--fn);transition:opacity 0.15s;}
+.btn-next:hover{opacity:0.85;}
+.btn-full{width:100%;padding:14px;background:var(--orange);border:none;border-radius:11px;font-size:15px;font-weight:600;color:white;cursor:pointer;font-family:var(--fn);transition:opacity 0.15s;margin-top:18px;}
+.btn-full:hover{opacity:0.85;}
+.success-icon{width:68px;height:68px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+.success-icon svg{width:34px;height:34px;stroke:white;}
+.success-title{font-size:26px;font-weight:700;color:var(--navy);text-align:center;letter-spacing:-0.6px;margin-bottom:8px;}
+.success-sub{font-size:14px;color:var(--g600);text-align:center;line-height:1.6;margin-bottom:24px;}
+.success-id{font-family:var(--fm);font-size:12px;font-weight:500;color:var(--blue);text-align:center;background:var(--blue-light);padding:8px 18px;border-radius:100px;display:inline-block;margin:0 auto 24px;}
+.next-steps{background:white;border:1px solid var(--g200);border-radius:14px;padding:20px;}
+.next-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;}
+.next-step:last-child{margin-bottom:0;}
+.next-num{width:26px;height:26px;border-radius:50%;background:var(--blue-light);color:var(--blue);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--fm);}
+.next-text h4{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.next-text p{font-size:12px;color:var(--g600);line-height:1.5;}
+@media(min-width:600px){.main{padding:36px 28px 80px;}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a class="logo" href="index.html">
+    <div class="logo-mark">
+      <svg viewBox="0 0 44 44" fill="none">
+        <path d="M10 22C10 13 17 8 22 8C27 8 30 11 30 15C30 19 27 21 22 21" stroke="#3B82F6" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M34 22C34 31 27 36 22 36C17 36 14 33 14 29C14 25 17 23 22 23" stroke="#F97316" stroke-width="2.6" stroke-linecap="round"/>
+        <circle cx="22" cy="22" r="2.5" fill="white"/>
+        <path d="M28 19L30 15L33 17" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 25L14 29L11 27" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <span class="logo-name">Carrovia</span>
+  </a>
+  <span class="header-free">Free for carriers</span>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-steps">
+    <div class="ps active" id="ps1"><div class="ps-dot">1</div><div class="ps-label">DOT</div></div>
+    <div class="ps-line" id="pl1"></div>
+    <div class="ps" id="ps2"><div class="ps-dot">2</div><div class="ps-label">Contact</div></div>
+    <div class="ps-line" id="pl2"></div>
+    <div class="ps" id="ps3"><div class="ps-dot">3</div><div class="ps-label">Fleet</div></div>
+    <div class="ps-line" id="pl3"></div>
+    <div class="ps" id="ps4"><div class="ps-dot">4</div><div class="ps-label">Operations</div></div>
+    <div class="ps-line" id="pl4"></div>
+    <div class="ps" id="ps5"><div class="ps-dot">5</div><div class="ps-label">History</div></div>
+    <div class="ps-line" id="pl5"></div>
+    <div class="ps" id="ps6"><div class="ps-dot">6</div><div class="ps-label">Consent</div></div>
+    <div class="ps-line" id="pl6"></div>
+    <div class="ps" id="ps7"><div class="ps-dot">✓</div><div class="ps-label">Done</div></div>
+  </div>
+</div>
+
+<main class="main">
+
+<!-- ══ STEP 1: DOT ══ -->
+<div class="screen active" id="screen1">
+  <div class="screen-tag">Step 1 of 6</div>
+  <h1 class="screen-title">Enter your DOT —<br>watch the <span class="hl">magic happen.</span></h1>
+  <p class="screen-sub">We pull your full federal record instantly. No paperwork. Your data is already in the FMCSA database.</p>
+  <div class="free-banner">
+    <div><div class="free-banner-text">Always 100% free for carriers</div><div class="free-banner-sub">Agencies compete for you — they pay, not you</div></div>
+    <span class="free-pill">FREE</span>
+  </div>
+  <div class="dot-wrap">
+    <label class="field-label">Your USDOT Number</label>
+    <div class="field-hint">Find it on your FMCSA registration email, your cab door, or at safer.fmcsa.dot.gov by searching your company name.</div>
+    <div class="dot-row">
+      <input type="tel" class="dot-input" id="dotInput" placeholder="Enter your DOT number" maxlength="10">
+      <button class="dot-btn" onclick="lookupDOT()" id="dotBtn">Look up →</button>
+    </div>
+  </div>
+  <div id="loadingDot" style="display:none;">
+    <div class="magic-wrap">
+      <div class="magic-header"><div class="magic-spinner"></div><span class="magic-title">Connecting to FMCSA federal database</span></div>
+      <div class="magic-steps" id="magicSteps"></div>
+    </div>
+  </div>
+  <div id="fmcsaResult" style="display:none;">
+    <div class="fmcsa-result">
+      <div class="fmcsa-header">
+        <div class="fmcsa-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div style="flex:1;"><div class="fmcsa-title" id="fmcsa-company">—</div><div class="fmcsa-sub">Federal record loaded — confirm this is your company</div></div>
+        <div class="fmcsa-gov">FMCSA</div>
+      </div>
+      <div class="fmcsa-section">Company Information</div>
+      <div class="fmcsa-grid">
+        <div class="fmcsa-field full"><div class="fmcsa-label">Legal Name</div><div class="fmcsa-value" id="fmcsa-legal">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">DBA</div><div class="fmcsa-value" id="fmcsa-dba">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">Entity Type</div><div class="fmcsa-value" id="fmcsa-entity">—</div></div>
+        <div class="fmcsa-field full"><div class="fmcsa-label">Address</div><div class="fmcsa-value" id="fmcsa-address">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">Phone</div><div class="fmcsa-value" id="fmcsa-phone">—</div></div>
+      </div>
+      <div class="fmcsa-section">Authority & Registration</div>
+      <div class="fmcsa-grid">
+        <div class="fmcsa-field"><div class="fmcsa-label">USDOT #</div><div class="fmcsa-value mono" id="fmcsa-dot">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">MC #</div><div class="fmcsa-value mono" id="fmcsa-mc">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">Authority Status</div><div class="fmcsa-value" id="fmcsa-auth">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">Operation Type</div><div class="fmcsa-value" id="fmcsa-op">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">Operating Radius</div><div class="fmcsa-value" id="fmcsa-radius">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">Authority Granted</div><div class="fmcsa-value" id="fmcsa-authdate">—</div></div>
+      </div>
+      <div class="fmcsa-section">Fleet on File</div>
+      <div class="fmcsa-grid">
+        <div class="fmcsa-field"><div class="fmcsa-label">Power Units</div><div class="fmcsa-value" id="fmcsa-units">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">Drivers on File</div><div class="fmcsa-value" id="fmcsa-drivers">—</div></div>
+        <div class="fmcsa-field full"><div class="fmcsa-label">Cargo Classifications</div><div class="fmcsa-value" id="fmcsa-cargo">—</div></div>
+      </div>
+      <div class="fmcsa-section">Safety Record (last 24 months)</div>
+      <div class="fmcsa-grid">
+        <div class="fmcsa-field"><div class="fmcsa-label">Safety Rating</div><div class="fmcsa-value" id="fmcsa-safety">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">Total Crashes</div><div class="fmcsa-value" id="fmcsa-crashes">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">Fatal / Injury / Tow</div><div class="fmcsa-value" id="fmcsa-crashbreakdown">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">Driver OOS Rate</div><div class="fmcsa-value" id="fmcsa-doos">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">Vehicle OOS Rate</div><div class="fmcsa-value" id="fmcsa-voos">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">Total Inspections</div><div class="fmcsa-value" id="fmcsa-inspections">—</div></div>
+      </div>
+      <div class="fmcsa-section">Insurance on File</div>
+      <div class="fmcsa-grid">
+        <div class="fmcsa-field"><div class="fmcsa-label">Filing Status</div><div class="fmcsa-value" id="fmcsa-insstatus">—</div></div>
+        <div class="fmcsa-field"><div class="fmcsa-label">Carrier on File</div><div class="fmcsa-value" id="fmcsa-inscarrier">—</div></div>
+      </div>
+      <div class="fmcsa-footer">Data sourced live from the FMCSA federal database · Updated in real time</div>
+    </div>
+    <button class="btn-full" onclick="goTo(2)">Yes, this is my company — continue →</button>
+    <div style="font-size:11px;color:var(--g400);text-align:center;margin-top:8px;font-family:var(--fm);">Not your company? Double-check your DOT number above.</div>
+  </div>
+</div>
+
+<!-- ══ STEP 2: CONTACT ══ -->
+<div class="screen" id="screen2">
+  <div class="screen-tag">Step 2 of 6</div>
+  <h1 class="screen-title">Let's start with <span class="hl">your contact info.</span></h1>
+  <p class="screen-sub">Just 3 fields. This lets us reach you if anything comes up — and it's how you'll receive your competing quotes.</p>
+  <div class="privacy-badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+    <span class="privacy-badge-text"><strong>Your contact info is never shared with agencies</strong> until you personally select a winner. Zero unsolicited calls.</span>
+  </div>
+  <div class="field-row">
+    <div class="field-group"><label class="field-label">First Name</label><input type="text" class="field-input" id="firstName" placeholder="John"></div>
+    <div class="field-group"><label class="field-label">Last Name</label><input type="text" class="field-input" id="lastName" placeholder="Smith"></div>
+  </div>
+  <div class="field-row">
+    <div class="field-group"><label class="field-label">Phone 🔒</label><div class="field-hint">Only given to the agency you choose.</div><input type="tel" class="field-input" id="phone" placeholder="(614) 555-0100"></div>
+    <div class="field-group"><label class="field-label">Email 🔒</label><div class="field-hint">Only given to the agency you choose.</div><input type="email" class="field-input" id="email" placeholder="you@example.com"></div>
+  </div>
+  <div class="nav-btns">
+    <button class="btn-back" onclick="goTo(1)">← Back</button>
+    <button class="btn-next" onclick="goTo(3)">Continue →</button>
+  </div>
+</div>
+
+<!-- ══ STEP 3: FLEET ══ -->
+<div class="screen" id="screen3">
+  <div class="screen-tag">Step 3 of 6</div>
+  <h1 class="screen-title">Tell us about your <span class="hl">fleet.</span></h1>
+  <p class="screen-sub">Every driver and truck. This is the core of your underwriting profile — accuracy here gets you the best quotes.</p>
+
+  <div class="sec-title">Drivers</div>
+  <p class="sec-sub">Add every driver who operates your trucks. Driver history is the #1 factor agencies use to price your policy.</p>
+  <div id="drivers-container"></div>
+  <button class="add-btn" id="addDriverBtn" onclick="addDriver()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Add another driver
+  </button>
+  <div class="add-limit" id="driverLimit"></div>
+
+  <hr class="sec-divider">
+
+  <div class="sec-title">Power Units (Trucks)</div>
+  <p class="sec-sub">Add each truck you want insured. VIN is on your dashboard, door frame, or title. Use NADA Guides or Truck Paper for market value.</p>
+  <div id="trucks-container"></div>
+  <button class="add-btn" id="addTruckBtn" onclick="addTruck()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Add another truck
+  </button>
+  <div class="add-limit" id="truckLimit"></div>
+
+  <div class="nav-btns">
+    <button class="btn-back" onclick="goTo(2)">← Back</button>
+    <button class="btn-next" onclick="goTo(4)">Continue →</button>
+  </div>
+</div>
+
+<!-- ══ STEP 4: OPERATIONS ══ -->
+<div class="screen" id="screen4">
+  <div class="screen-tag">Step 4 of 6</div>
+  <h1 class="screen-title">How do you <span class="hl">operate?</span></h1>
+  <p class="screen-sub">These questions come directly from the ACORD 132 trucking underwriting form. Your answers determine coverage eligibility and pricing.</p>
+
+  <div class="sec-title">Cargo & Revenue</div>
+
+  <div class="field-group">
+    <label class="field-label">Type of Freight You Haul</label>
+    <div class="field-hint">Pick the closest match. If you use load boards and haul whatever's available, select Dry Van — General Freight.</div>
+    <select class="field-select" id="commodity">
+      <option value="">Select...</option>
+      <option>Dry Van — General freight, load boards, mixed loads</option>
+      <option>Flatbed — Steel, lumber, machinery, construction materials</option>
+      <option>Refrigerated (Reefer) — Food, produce, temperature-sensitive goods</option>
+      <option>Tanker — Liquids, fuel, chemicals</option>
+      <option>Mixed — Multiple trailer types / varies by load</option>
+    </select>
+  </div>
+
+  <div class="yn-row" style="margin-bottom:16px;">
+    <div class="yn-question">Do you ever haul pharmaceuticals, alcohol, tobacco, electronics, or other high-value goods?<span>These require special endorsements. Most load board carriers answer No.</span></div>
+    <div class="yn-btns"><button class="yn-btn yes" onclick="setYN(this,'highValue','yes')">Yes</button><button class="yn-btn no active" onclick="setYN(this,'highValue','no')">No</button></div>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label">Max Value Per Load (est.)</label>
+      <div class="field-hint">What is the most a single load you haul could be worth? If you use load boards and don't know, select the first option.</div>
+      <select class="field-select" id="loadValue">
+        <option value="">Select...</option>
+        <option>I don't know — load board freight varies</option>
+        <option>Under $25,000</option>
+        <option>$25,000 – $100,000</option>
+        <option>$100,000 – $250,000</option>
+        <option>Over $250,000</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Total Annual Miles (all trucks)</label>
+      <div class="field-hint">All trucks combined per year. 1 truck at 2,500/week = ~130,000/yr.</div>
+      <input type="text" class="field-input" id="annualMiles" placeholder="e.g. 130,000">
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Estimated Annual Revenue</label>
+    <div class="field-hint">Your total trucking income per year. New operators — select the first option. This is used to calculate your liability rating.</div>
+    <select class="field-select" id="receipts1">
+      <option value="">Select...</option>
+      <option>New operator — just started, no prior revenue</option>
+      <option>Under $100,000 / year</option>
+      <option>$100,000 – $250,000 / year</option>
+      <option>$250,000 – $500,000 / year</option>
+      <option>Over $500,000 / year</option>
+    </select>
+  </div>
+
+  <hr class="sec-divider">
+  <div class="sec-title">Operating Details</div>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label">Operating Radius</label>
+      <div class="field-hint">How far from your home base do you typically operate?</div>
+      <select class="field-select" id="opRadius">
+        <option value="">Select...</option>
+        <option>Local (under 50 miles)</option>
+        <option>Intermediate (50–200 miles)</option>
+        <option>Regional (200–500 miles)</option>
+        <option>Long Haul (500+ miles)</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Trailers Owned / Operated</label>
+      <div class="field-hint">Number of trailers you own. Enter 0 if you use drop trailers only.</div>
+      <input type="number" class="field-input" id="trailers" placeholder="e.g. 0" min="0">
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Primary Operating States</label>
+    <div class="field-hint">All states you regularly run freight in. Affects zone rating and required state filings.</div>
+    <input type="text" class="field-input" id="opStates" placeholder="e.g. Ohio, Indiana, Kentucky, Pennsylvania">
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Terminal / Garage Location</label>
+    <div class="field-hint">Where your trucks are parked when not in use.</div>
+    <input type="text" class="field-input" id="terminal" placeholder="e.g. Columbus, OH">
+  </div>
+
+  <hr class="sec-divider">
+  <div class="sec-title">Underwriting Questions</div>
+  <p class="sec-sub">Standard ACORD 132 questions. Answer honestly — agencies verify through FMCSA and MVR records.</p>
+
+  <div class="yn-row"><div class="yn-question">Do you haul to or from Canada or Mexico?<span>Triggers additional coverage requirements and endorsements.</span></div><div class="yn-btns"><button class="yn-btn yes" onclick="setYN(this,'canadaMexico','yes')">Yes</button><button class="yn-btn no" onclick="setYN(this,'canadaMexico','no')">No</button></div></div>
+  <div class="yn-row"><div class="yn-question">Do you haul hazardous materials (HazMat)?<span>Requires H or X CDL endorsement and special FMCSA filings.</span></div><div class="yn-btns"><button class="yn-btn yes" onclick="setYN(this,'hazmat','yes')">Yes</button><button class="yn-btn no" onclick="setYN(this,'hazmat','no')">No</button></div></div>
+  <div class="yn-row"><div class="yn-question">Do you haul target commodities?<span>Electronics, pharmaceuticals, liquor, meat, seafood, or other high-theft/high-value goods.</span></div><div class="yn-btns"><button class="yn-btn yes" onclick="setYN(this,'targetCargo','yes')">Yes</button><button class="yn-btn no" onclick="setYN(this,'targetCargo','no')">No</button></div></div>
+  <div class="yn-row"><div class="yn-question">Do other truckers operate under your DOT permit?<span>Owner-operators or leased drivers dispatched under your authority.</span></div><div class="yn-btns"><button class="yn-btn yes" onclick="setYN(this,'otherTruckers','yes')">Yes</button><button class="yn-btn no" onclick="setYN(this,'otherTruckers','no')">No</button></div></div>
+  <div class="yn-row"><div class="yn-question">Do you hire or lease trucks / equipment from others?<span>Non-owned vehicle liability coverage may be required.</span></div><div class="yn-btns"><button class="yn-btn yes" onclick="setYN(this,'hireEquipment','yes')">Yes</button><button class="yn-btn no" onclick="setYN(this,'hireEquipment','no')">No</button></div></div>
+  <div class="yn-row"><div class="yn-question">Do you have a formal vehicle maintenance program?<span>Documented maintenance schedule can improve your rate with some carriers.</span></div><div class="yn-btns"><button class="yn-btn yes" onclick="setYN(this,'maintenance','yes')">Yes</button><button class="yn-btn no" onclick="setYN(this,'maintenance','no')">No</button></div></div>
+  <div class="yn-row"><div class="yn-question">Are all driver DOT medical physicals current?<span>Required by FMCSA. Lapsed physicals affect insurability with most carriers.</span></div><div class="yn-btns"><button class="yn-btn yes" onclick="setYN(this,'physicals','yes')">Yes</button><button class="yn-btn no" onclick="setYN(this,'physicals','no')">No</button></div></div>
+  <div class="yn-row"><div class="yn-question">Do you use telematics, ELD data, or a dash cam?<span>Technology can reduce premiums with several commercial trucking carriers.</span></div><div class="yn-btns"><button class="yn-btn yes" onclick="setYN(this,'telematics','yes')">Yes</button><button class="yn-btn no" onclick="setYN(this,'telematics','no')">No</button></div></div>
+
+  <hr class="sec-divider">
+  <div class="sec-title">Coverage Requested</div>
+
+  <div class="field-group">
+    <label class="field-label">Auto Liability Limit</label>
+    <div class="field-hint">$1,000,000 CSL is the FMCSA minimum for interstate carriers. Required to activate MC authority.</div>
+    <select class="field-select" id="liability">
+      <option value="">Select...</option>
+      <option>$750,000</option>
+      <option selected>$1,000,000 (FMCSA minimum — most common)</option>
+      <option>$2,000,000</option>
+    </select>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label">Cargo Coverage Limit</label>
+      <div class="field-hint">Covers freight if damaged, lost, or stolen. Required by most freight brokers.</div>
+      <select class="field-select" id="cargo">
+        <option value="">Select...</option>
+        <option>Not needed</option>
+        <option>$50,000</option>
+        <option selected>$100,000</option>
+        <option>$250,000</option>
+        <option>$500,000</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Physical Damage</label>
+      <div class="field-hint">Covers your truck in a crash. Required by lender if financed.</div>
+      <select class="field-select" id="physdamage">
+        <option value="">Select...</option>
+        <option>Not needed — truck paid off</option>
+        <option>Yes — truck is financed (required)</option>
+        <option>Yes — optional protection</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Additional Coverage</label>
+    <div class="field-hint">Select all that apply. Agencies will include these in their competing bids.</div>
+    <div class="pill-group" id="extraCoverage">
+      <div class="pill" onclick="togglePill(this)">General Liability</div>
+      <div class="pill" onclick="togglePill(this)">Non-Trucking Liability</div>
+      <div class="pill" onclick="togglePill(this)">Occupational Accident</div>
+      <div class="pill" onclick="togglePill(this)">Trailer Interchange</div>
+      <div class="pill" onclick="togglePill(this)">Bobtail</div>
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label">Coverage Start Date</label>
+      <div class="field-hint">Must align with MC authority filing if new operator.</div>
+      <input type="date" class="field-input" id="startDate">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Payment Preference</label>
+      <div class="field-hint">Annual = lowest total cost. Premium finance = monthly loan payments.</div>
+      <select class="field-select" id="payment">
+        <option value="">Select...</option>
+        <option>Annual — pay once, lowest cost</option>
+        <option>Semi-annual — 2 payments</option>
+        <option>Monthly installments</option>
+        <option>Premium finance (monthly loan)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-back" onclick="goTo(3)">← Back</button>
+    <button class="btn-next" onclick="goTo(5)">Continue →</button>
+  </div>
+</div>
+
+<!-- ══ STEP 5: HISTORY ══ -->
+<div class="screen" id="screen5">
+  <div class="screen-tag">Step 5 of 6</div>
+  <h1 class="screen-title">Almost done —<span class="hl"> insurance history.</span></h1>
+  <div class="progress-label"><strong>Why this matters:</strong> Prior insurance history helps agencies offer better rates. New operators just answer "New operator" where asked. This is the last information step before your profile goes live to agencies.</div>
+
+  <div class="sec-title">Prior Insurance</div>
+  <p class="sec-sub">If you've never had commercial trucking insurance, select "New operator" in the fields below.</p>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label">Prior Insurance Carrier</label>
+      <div class="field-hint">Name of your previous insurance company.</div>
+      <input type="text" class="field-input" id="priorCarrier" placeholder="e.g. Progressive or New operator">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Prior Annual Premium</label>
+      <div class="field-hint">What you paid last policy year. Enter N/A if new.</div>
+      <input type="text" class="field-input" id="priorPremium" placeholder="e.g. $11,200 or N/A">
+    </div>
+  </div>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label">Prior Policy Expiration</label>
+      <div class="field-hint">When your last policy expired.</div>
+      <input type="date" class="field-input" id="priorExpiry">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Prior Policy Number</label>
+      <div class="field-hint">On your declarations page. Enter N/A if new.</div>
+      <input type="text" class="field-input" id="priorPolicyNum" placeholder="e.g. TRK-2024-XXXXX or N/A">
+    </div>
+  </div>
+
+  <hr class="sec-divider">
+  <div class="sec-title">Claims History (Last 5 Years)</div>
+  <p class="sec-sub">List any insurance claims in the last 5 years. New operators enter none. Agencies verify through loss runs.</p>
+
+  <div class="yn-row" style="border-bottom:none;padding-bottom:0;margin-bottom:14px;">
+    <div class="yn-question">Any claims filed in the last 5 years?</div>
+    <div class="yn-btns">
+      <button class="yn-btn yes" onclick="setYN(this,'hasClaims','yes');document.getElementById('claimsDetail').style.display='block'">Yes</button>
+      <button class="yn-btn no active" onclick="setYN(this,'hasClaims','no');document.getElementById('claimsDetail').style.display='none'">No</button>
+    </div>
+  </div>
+
+  <div id="claimsDetail" style="display:none;">
+    <div class="field-group">
+      <label class="field-label">Claims Summary</label>
+      <div class="field-hint">For each claim: date, type, amount paid, open or closed. Be accurate — agencies verify.</div>
+      <textarea class="field-textarea" id="claimsSummary" placeholder="Example:&#10;March 2023 — Auto liability — $8,500 paid — Closed&#10;July 2024 — Cargo damage — $3,200 paid — Closed"></textarea>
+    </div>
+  </div>
+
+  <hr class="sec-divider">
+  <div class="sec-title">Loss Runs</div>
+  <p class="sec-sub">Loss runs are official claims documents from your prior insurer. The winning agency may request them at binding.</p>
+
+  <div class="field-group">
+    <label class="field-label">Loss Runs Available?</label>
+    <div class="pill-group">
+      <div class="pill" onclick="selectOne(this)">Yes — I have them</div>
+      <div class="pill selected" onclick="selectOne(this)">N/A — New operator</div>
+      <div class="pill" onclick="selectOne(this)">No — I'll request from prior carrier</div>
+    </div>
+  </div>
+
+  <hr class="sec-divider">
+  <div class="sec-title">Background</div>
+  <p class="sec-sub">Standard ACORD 125 questions required by all commercial carriers.</p>
+
+  <div class="yn-row"><div class="yn-question">Has any policy been cancelled or non-renewed in the last 3 years?<span>For any reason including non-payment.</span></div><div class="yn-btns"><button class="yn-btn yes" onclick="setYN(this,'cancelled','yes')">Yes</button><button class="yn-btn no" onclick="setYN(this,'cancelled','no')">No</button></div></div>
+  <div class="yn-row"><div class="yn-question">Has the business or any owner filed for bankruptcy in the last 5 years?</div><div class="yn-btns"><button class="yn-btn yes" onclick="setYN(this,'bankruptcy','yes')">Yes</button><button class="yn-btn no" onclick="setYN(this,'bankruptcy','no')">No</button></div></div>
+  <div class="yn-row"><div class="yn-question">Has any owner been convicted of fraud, bribery, or arson in the last 5 years?</div><div class="yn-btns"><button class="yn-btn yes" onclick="setYN(this,'fraud','yes')">Yes</button><button class="yn-btn no" onclick="setYN(this,'fraud','no')">No</button></div></div>
+
+  <div class="field-group" style="margin-top:18px;">
+    <label class="field-label">FEIN / Federal Tax ID <span style="font-weight:400;color:var(--g400);font-size:12px;">(optional)</span></label>
+    <div class="field-hint">Used by the winning agency for policy binding. Protected — never shown to competing agencies.</div>
+    <input type="text" class="field-input" id="fein" placeholder="XX-XXXXXXX">
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-back" onclick="goTo(4)">← Back</button>
+    <button class="btn-next" onclick="goTo(6)">Continue →</button>
+  </div>
+</div>
+
+<!-- ══ STEP 6: CONSENT ══ -->
+<div class="screen" id="screen6">
+  <div class="screen-tag">Step 6 of 6</div>
+  <h1 class="screen-title">One last step —<span class="hl"> authorize your driving record.</span></h1>
+  <p class="screen-sub">Agencies need your Motor Vehicle Record to give you a firm, bindable quote. We pull it once, securely, with your permission.</p>
+
+  <div class="consent-box">
+    <div class="consent-box-title">What is an MVR and why do we need it?</div>
+    <div class="consent-box-body">Your MVR is your official driving history from the state DMV — violations, accidents, license status, and endorsements. It's the single most important document agencies use to price commercial trucking insurance. By pulling it now, your profile is 100% complete and agencies can give you firm, bindable quotes without calling you for more information.</div>
+  </div>
+
+  <div class="consent-check-wrap" id="consentWrap" onclick="toggleConsent()">
+    <div class="consent-checkbox" id="consentCheck"></div>
+    <div class="consent-check-text">I authorize <span>Carrovia Inc.</span> to obtain my Motor Vehicle Record (MVR) from the appropriate state DMV for the purpose of obtaining insurance quotes. My identity and contact information will only be shared with the agency I select as my winner. I agree to Carrovia's Privacy Policy and Terms of Service.</div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label">Full Legal Name</label>
+    <div class="field-hint">Must match your CDL exactly — used to pull your driving record.</div>
+    <input type="text" class="field-input" id="legalName" placeholder="First Middle Last">
+  </div>
+
+  <div class="field-row">
+    <div class="field-group">
+      <label class="field-label">Date of Birth</label>
+      <div class="field-hint">Agencies see only your age range — never your actual birthday.</div>
+      <input type="date" class="field-input" id="dob">
+    </div>
+    <div class="field-group">
+      <label class="field-label">CDL Number 🔒</label>
+      <div class="field-hint">Encrypted. Never shown to any agency. Only used to pull MVR.</div>
+      <input type="text" class="field-input" id="cdlNumber" placeholder="Your state CDL number">
+    </div>
+  </div>
+
+  <div class="sig-wrap">
+    <div class="sig-header">
+      <span class="sig-label">Sign below — legally valid under the E-SIGN Act</span>
+      <button class="sig-clear" onclick="clearSig()">Clear</button>
+    </div>
+    <canvas id="sigCanvas"></canvas>
+  </div>
+  <div style="font-size:10px;color:var(--g400);margin-bottom:18px;font-family:var(--fm);">Signature timestamp recorded and stored securely.</div>
+
+  <div style="background:#FEF9F0;border:1.5px solid #FED7AA;border-radius:11px;padding:14px 16px;margin-bottom:16px;">
+    <div style="font-size:11px;font-weight:700;color:#92400E;font-family:var(--fm);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;">Accuracy & Fraud Warning</div>
+    <p style="font-size:12px;color:#78350F;line-height:1.6;margin-bottom:8px;">By signing above, I confirm that <strong>all information provided in this application is true, complete, and accurate</strong> to the best of my knowledge. I understand that providing false or misleading information may result in denial of coverage, cancellation of policy, or legal liability.</p>
+    <p style="font-size:11px;color:#92400E;line-height:1.6;">Any person who knowingly and with intent to defraud any insurance company files an application containing any materially false information, or conceals information for the purpose of misleading, commits a fraudulent insurance act which may be subject to criminal and civil penalties under applicable state law.</p>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn-back" onclick="goTo(5)">← Back</button>
+    <button class="btn-next" onclick="submitForm()">Submit my profile →</button>
+  </div>
+</div>
+
+<!-- ══ STEP 7: SUCCESS ══ -->
+<div class="screen" id="screen7">
+  <div style="text-align:center;padding:16px 0 0;">
+    <div class="success-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h1 class="success-title">Your profile is live!</h1>
+    <p class="success-sub">Agencies are reviewing your anonymized profile. You'll receive competing quotes within 24–48 hours.</p>
+    <div class="success-id" id="profileId">Profile ID: CR-002</div>
+  </div>
+  <div class="next-steps">
+    <div class="next-step"><div class="next-num">1</div><div class="next-text"><h4>Agencies receive your anonymized profile</h4><p>Your name and contact info are hidden. They see only your fleet, driving record, operations, and coverage needs.</p></div></div>
+    <div class="next-step"><div class="next-num">2</div><div class="next-text"><h4>Multiple agencies submit competing bids</h4><p>They compete on price. You see all quotes side by side — no pressure, no calls from agencies you didn't choose.</p></div></div>
+    <div class="next-step"><div class="next-num">3</div><div class="next-text"><h4>You choose the winner</h4><p>Pick the best quote. Only then does the winning agency learn who you are and call you to bind.</p></div></div>
+    <div class="next-step"><div class="next-num">4</div><div class="next-text"><h4>Check your email</h4><p>We'll send updates as bids come in. No spam — only real quotes from verified agencies.</p></div></div>
+  </div>
+</div>
+
+</main>
+
+<script>
+let cur=1,dc=0,tc=0,MAX=10,consent=false,sigC,sigX,sigDraw=false,sigMark=false;
+const yn={};
+
+function goTo(n){
+  document.getElementById('screen'+cur).classList.remove('active');
+  document.getElementById('screen'+n).classList.add('active');
+  for(let i=1;i<=7;i++){
+    const ps=document.getElementById('ps'+i);
+    if(!ps)continue;
+    if(i<n){ps.className='ps done';const pl=document.getElementById('pl'+i);if(pl)pl.className='ps-line done';}
+    else if(i===n)ps.className='ps active';
+    else ps.className='ps';
+  }
+  cur=n;
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(n===6)initSig();
+  if(n===7)document.getElementById('profileId').textContent='Profile ID: CR-'+(Math.floor(Math.random()*900)+100);
+}
+
+const MS=[
+  {l:'Verifying DOT number format',d:420},
+  {l:'Connecting to FMCSA federal database',d:600},
+  {l:'Pulling company registration & authority',d:580},
+  {l:'Loading MC number & filing status',d:480},
+  {l:'Retrieving vehicle & driver records',d:560},
+  {l:'Fetching CSA scores & safety history',d:500},
+  {l:'Pulling insurance filing status',d:440},
+  {l:'Building your carrier profile',d:380},
+];
+
+function lookupDOT(){
+  const dot=document.getElementById('dotInput').value.trim();
+  if(!dot||dot.length<5){alert('Please enter a valid DOT number (at least 5 digits).');return;}
+  const btn=document.getElementById('dotBtn');
+  btn.disabled=true;
+  document.getElementById('fmcsaResult').style.display='none';
+  document.getElementById('loadingDot').style.display='block';
+  const con=document.getElementById('magicSteps');
+  con.innerHTML='';
+  MS.forEach((s,i)=>{
+    const d=document.createElement('div');
+    d.className='magic-step pending';d.id='ms'+i;
+    d.innerHTML=`<div class="magic-step-icon pending" id="mi${i}"></div><div class="magic-step-content"><div class="magic-step-label">${s.l}</div><div class="magic-bar-track"><div class="magic-bar-fill" id="mb${i}"></div></div></div>`;
+    con.appendChild(d);
+  });
+  let delay=0;
+  MS.forEach((s,i)=>{
+    setTimeout(()=>{
+      const el=document.getElementById('ms'+i),ic=document.getElementById('mi'+i),b=document.getElementById('mb'+i);
+      el.classList.replace('pending','running');el.classList.add('visible');
+      ic.className='magic-step-icon running';
+      setTimeout(()=>{b.style.width='100%';},50);
+    },delay);
+    delay+=s.d;
+    setTimeout(()=>{
+      const el=document.getElementById('ms'+i),ic=document.getElementById('mi'+i);
+      el.classList.replace('running','done');ic.className='magic-step-icon done';
+    },delay);
+    delay+=150;
+  });
+  setTimeout(()=>{
+    document.getElementById('loadingDot').style.display='none';
+    const d={company:'4 Trucking LLC',legal:'4 Trucking LLC',dba:'None on file',entity:'LLC',address:'Columbus, OH 43201',phone:'(614) 555-0100',dot:dot,mc:'MC-Pending',auth:'✓ Active — Authorized For Hire',op:'For-Hire Carrier',radius:'Interstate',authdate:'Pending activation',units:'1 power unit',drivers:'1 driver',cargo:'General Freight, Building Materials',safety:'Not Rated (new carrier)',crashes:'0',crashbreakdown:'0 fatal · 0 injury · 0 tow',doos:'0.0% (Natl avg: 6.67%)',voos:'0.0% (Natl avg: 22.26%)',inspections:'0 on record',insstatus:'No active filing',inscarrier:'—'};
+    Object.entries(d).forEach(([k,v])=>{const el=document.getElementById('fmcsa-'+k);if(el)el.textContent=v;});
+    document.getElementById('fmcsaResult').style.display='block';
+    btn.disabled=false;
+  },delay+200);
+}
+
+function addDriver(){
+  if(dc>=MAX)return;dc++;
+  const c=document.getElementById('drivers-container');
+  const el=document.createElement('div');
+  el.className='entity-card';el.id='driver-'+dc;
+  el.innerHTML=`<div class="entity-header"><div class="entity-title"><div class="entity-num">${dc}</div>Driver ${dc}</div>${dc>1?`<button class="entity-remove" onclick="removeE('driver',${dc})">Remove</button>`:''}</div>
+  <div class="field-row"><div class="field-group"><label class="field-label">CDL Class</label><div class="field-hint">Class A = semi trucks.</div><select class="field-select"><option>Select...</option><option>Class A</option><option>Class B</option><option>Class C</option></select></div><div class="field-group"><label class="field-label">CDL Endorsements</label><div class="field-hint">T=Tank, X=Tank+HazMat, H=HazMat, P=Passenger.</div><input type="text" class="field-input" placeholder="e.g. T, X"></div></div>
+  <div class="field-row"><div class="field-group"><label class="field-label">License State</label><div class="field-hint">State that issued the CDL.</div><input type="text" class="field-input" placeholder="e.g. Ohio"></div><div class="field-group"><label class="field-label">License Expiration</label><div class="field-hint">Expiring CDL affects insurability.</div><input type="date" class="field-input"></div></div>
+  <div class="field-row"><div class="field-group"><label class="field-label">Years CDL Licensed</label><div class="field-hint">Under 2 yrs is high-risk for most carriers.</div><select class="field-select"><option>Select...</option><option>Less than 1 year</option><option>1–2 years</option><option>3–5 years</option><option>6–10 years</option><option>10+ years</option></select></div><div class="field-group"><label class="field-label">Date Hired</label><div class="field-hint">When did this driver start with you?</div><input type="date" class="field-input"></div></div>
+  <div class="field-row"><div class="field-group"><label class="field-label">Violations (last 3 yrs)</label><select class="field-select"><option>0 violations</option><option>1</option><option>2</option><option>3+</option></select></div><div class="field-group"><label class="field-label">At-Fault Accidents (last 5 yrs)</label><select class="field-select"><option>0 accidents</option><option>1</option><option>2</option><option>3+</option></select></div></div>`;
+  c.appendChild(el);updUI('driver');
+}
+
+function addTruck(){
+  if(tc>=MAX)return;tc++;
+  const c=document.getElementById('trucks-container');
+  const el=document.createElement('div');
+  el.className='entity-card';el.id='truck-'+tc;
+  el.innerHTML=`<div class="entity-header"><div class="entity-title"><div class="entity-num">${tc}</div>Truck ${tc}</div>${tc>1?`<button class="entity-remove" onclick="removeE('truck',${tc})">Remove</button>`:''}</div>
+  <div class="field-row"><div class="field-group"><label class="field-label">Year</label><input type="text" class="field-input" placeholder="e.g. 2019"></div><div class="field-group"><label class="field-label">Make & Model</label><input type="text" class="field-input" placeholder="e.g. Freightliner Cascadia"></div></div>
+  <div class="field-row"><div class="field-group"><label class="field-label">Body Type</label><select class="field-select"><option value="">Select...</option><option>Semi-Truck / Tractor</option><option>Straight Truck</option><option>Dump Truck</option><option>Flatbed</option><option>Refrigerated</option><option>Tanker</option><option>Other</option></select></div><div class="field-group"><label class="field-label">VIN</label><div class="field-hint">17 chars — on dashboard, door frame, or title.</div><input type="text" class="field-input" placeholder="17-character VIN" maxlength="17"></div></div>
+  <div class="field-row"><div class="field-group"><label class="field-label">Stated Value</label><div class="field-hint">Check NADA Guides or Truck Paper.</div><input type="text" class="field-input" placeholder="e.g. $65,000"></div><div class="field-group"><label class="field-label">Date Purchased</label><input type="date" class="field-input"></div></div>
+  <div class="field-row"><div class="field-group"><label class="field-label">Financed / Leased?</label><div class="field-hint">Lender requires physical damage if financed.</div><select class="field-select"><option value="">Select...</option><option>Yes — financed</option><option>Yes — leased</option><option>No — paid off</option></select></div><div class="field-group"><label class="field-label">Lienholder Name</label><div class="field-hint">Bank or lender name. N/A if paid off.</div><input type="text" class="field-input" placeholder="e.g. Chase Auto Finance or N/A"></div></div>
+  <div class="field-row"><div class="field-group"><label class="field-label">Garaging City & State</label><div class="field-hint">Where this truck is parked when not in use.</div><input type="text" class="field-input" placeholder="e.g. Columbus, OH"></div><div class="field-group"><label class="field-label">Annual Miles (this truck)</label><div class="field-hint">Miles this specific truck drives per year.</div><input type="text" class="field-input" placeholder="e.g. 130,000"></div></div>`;
+  c.appendChild(el);updUI('truck');
+}
+
+function removeE(t,n){const el=document.getElementById(t+'-'+n);if(el)el.remove();if(t==='driver')dc--;else tc--;updUI(t);}
+
+function updUI(t){
+  const count=t==='driver'?dc:tc;
+  const btn=document.getElementById('add'+(t==='driver'?'Driver':'Truck')+'Btn');
+  const lim=document.getElementById(t+'Limit');
+  if(count>=MAX){btn.style.display='none';lim.textContent='Maximum 10 reached.';}
+  else{btn.style.display='flex';lim.textContent=count>0?`${count} ${t}${count>1?'s':''} added — max 10`:'';}
+}
+
+function setYN(btn,key,val){
+  yn[key]=val;
+  btn.closest('.yn-btns').querySelectorAll('.yn-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function togglePill(el){el.classList.toggle('selected');}
+function selectOne(el){el.closest('.pill-group').querySelectorAll('.pill').forEach(p=>p.classList.remove('selected'));el.classList.add('selected');}
+function toggleConsent(){consent=!consent;document.getElementById('consentWrap').classList.toggle('checked',consent);}
+
+function initSig(){
+  sigC=document.getElementById('sigCanvas');
+  sigC.width=sigC.offsetWidth;sigC.height=110;
+  sigX=sigC.getContext('2d');
+  sigX.strokeStyle='#0A1628';sigX.lineWidth=2.2;sigX.lineCap='round';sigX.lineJoin='round';
+  const p=(e)=>{const r=sigC.getBoundingClientRect();const s=e.touches?e.touches[0]:e;return{x:(s.clientX-r.left)*(sigC.width/r.width),y:(s.clientY-r.top)*(sigC.height/r.height)};};
+  sigC.onmousedown=e=>{sigDraw=true;const q=p(e);sigX.beginPath();sigX.moveTo(q.x,q.y);};
+  sigC.onmousemove=e=>{if(!sigDraw)return;const q=p(e);sigX.lineTo(q.x,q.y);sigX.stroke();sigMark=true;};
+  sigC.onmouseup=sigC.onmouseleave=()=>sigDraw=false;
+  sigC.addEventListener('touchstart',e=>{e.preventDefault();sigDraw=true;const q=p(e);sigX.beginPath();sigX.moveTo(q.x,q.y);},{passive:false});
+  sigC.addEventListener('touchmove',e=>{e.preventDefault();if(!sigDraw)return;const q=p(e);sigX.lineTo(q.x,q.y);sigX.stroke();sigMark=true;},{passive:false});
+  sigC.addEventListener('touchend',()=>sigDraw=false);
+}
+
+function clearSig(){if(sigX){sigX.clearRect(0,0,sigC.width,sigC.height);sigMark=false;}}
+
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_5jYHrE3VoVFwKBzBt-IIcd6tMrFp0NYS5mHTz0id3_7BzHPzbAXZk8g9f3uXnpgV/exec';
+
+function val(id){ const el=document.getElementById(id); return el ? el.value.trim() : ''; }
+
+function getDriverData(){
+  const drivers=[];
+  for(let i=1;i<=dc;i++){
+    const card=document.getElementById('driver-'+i);
+    if(!card)continue;
+    const selects=card.querySelectorAll('select');
+    const inputs=card.querySelectorAll('input');
+    drivers.push({
+      cdlClass: selects[0]?selects[0].value:'',
+      endorsements: inputs[0]?inputs[0].value:'',
+      licenseState: inputs[1]?inputs[1].value:'',
+      licenseExpiry: inputs[2]?inputs[2].value:'',
+      yearsLicensed: selects[1]?selects[1].value:'',
+      dateHired: inputs[3]?inputs[3].value:'',
+      violations: selects[2]?selects[2].value:'',
+      accidents: selects[3]?selects[3].value:''
+    });
+  }
+  return drivers;
+}
+
+function getTruckData(){
+  const trucks=[];
+  for(let i=1;i<=tc;i++){
+    const card=document.getElementById('truck-'+i);
+    if(!card)continue;
+    const inputs=card.querySelectorAll('input');
+    const selects=card.querySelectorAll('select');
+    trucks.push({
+      year: inputs[0]?inputs[0].value:'',
+      makeModel: inputs[1]?inputs[1].value:'',
+      bodyType: selects[0]?selects[0].value:'',
+      vin: inputs[2]?inputs[2].value:'',
+      value: inputs[3]?inputs[3].value:'',
+      datePurchased: inputs[4]?inputs[4].value:'',
+      financed: selects[1]?selects[1].value:'',
+      lienholder: inputs[5]?inputs[5].value:'',
+      garaging: inputs[6]?inputs[6].value:'',
+      annualMiles: inputs[7]?inputs[7].value:''
+    });
+  }
+  return trucks;
+}
+
+function getExtraCoverage(){
+  const selected=[];
+  document.querySelectorAll('#extraCoverage .pill.selected').forEach(p=>selected.push(p.textContent.trim()));
+  return selected.join(', ');
+}
+
+function submitForm(){
+  if(!consent){alert('Please check the consent box to authorize your MVR pull.');return;}
+  if(!sigMark){alert('Please add your signature before submitting.');return;}
+  if(!document.getElementById('legalName').value.trim()){alert('Please enter your full legal name.');return;}
+  if(!document.getElementById('dob').value){alert('Please enter your date of birth.');return;}
+  if(!document.getElementById('cdlNumber').value.trim()){alert('Please enter your CDL number.');return;}
+
+  // Show submitting state
+  const btn = document.querySelector('#screen6 .btn-next');
+  btn.textContent = 'Submitting...';
+  btn.disabled = true;
+
+  const drivers = getDriverData();
+  const trucks = getTruckData();
+  const d1 = drivers[0] || {};
+  const t1 = trucks[0] || {};
+
+  const payload = {
+    type: 'carrier',
+    // Contact
+    firstName: val('firstName'),
+    lastName: val('lastName'),
+    phone: val('phone'),
+    email: val('email'),
+    // DOT / FMCSA
+    dotNumber: document.getElementById('fmcsa-dot') ? document.getElementById('fmcsa-dot').textContent : '',
+    companyName: document.getElementById('fmcsa-company') ? document.getElementById('fmcsa-company').textContent : '',
+    authorityStatus: document.getElementById('fmcsa-auth') ? document.getElementById('fmcsa-auth').textContent : '',
+    operationType: document.getElementById('fmcsa-op') ? document.getElementById('fmcsa-op').textContent : '',
+    operatingRadius: document.getElementById('fmcsa-radius') ? document.getElementById('fmcsa-radius').textContent : '',
+    powerUnits: document.getElementById('fmcsa-units') ? document.getElementById('fmcsa-units').textContent : '',
+    cargoClassifications: document.getElementById('fmcsa-cargo') ? document.getElementById('fmcsa-cargo').textContent : '',
+    safetyRating: document.getElementById('fmcsa-safety') ? document.getElementById('fmcsa-safety').textContent : '',
+    totalCrashes: document.getElementById('fmcsa-crashes') ? document.getElementById('fmcsa-crashes').textContent : '',
+    insuranceFilingStatus: document.getElementById('fmcsa-insstatus') ? document.getElementById('fmcsa-insstatus').textContent : '',
+    // Driver 1
+    driver1CdlClass: d1.cdlClass || '',
+    driver1Endorsements: d1.endorsements || '',
+    driver1LicenseState: d1.licenseState || '',
+    driver1LicenseExpiry: d1.licenseExpiry || '',
+    driver1YearsLicensed: d1.yearsLicensed || '',
+    driver1DateHired: d1.dateHired || '',
+    driver1Violations: d1.violations || '',
+    driver1Accidents: d1.accidents || '',
+    // Truck 1
+    truck1Year: t1.year || '',
+    truck1MakeModel: t1.makeModel || '',
+    truck1BodyType: t1.bodyType || '',
+    truck1Vin: t1.vin || '',
+    truck1Value: t1.value || '',
+    truck1DatePurchased: t1.datePurchased || '',
+    truck1Financed: t1.financed || '',
+    truck1Lienholder: t1.lienholder || '',
+    truck1Garaging: t1.garaging || '',
+    truck1AnnualMiles: t1.annualMiles || '',
+    // Operations
+    freightType: val('commodity'),
+    highValueGoods: yn['highValue'] || 'no',
+    maxLoadValue: val('loadValue'),
+    totalAnnualMiles: val('annualMiles'),
+    annualRevenue: val('receipts1'),
+    opRadius: val('opRadius'),
+    trailersOwned: val('trailers'),
+    opStates: val('opStates'),
+    terminal: val('terminal'),
+    // Underwriting Y/N
+    canadaMexico: yn['canadaMexico'] || '',
+    hazmat: yn['hazmat'] || '',
+    targetCargo: yn['targetCargo'] || '',
+    otherTruckers: yn['otherTruckers'] || '',
+    hireEquipment: yn['hireEquipment'] || '',
+    maintenance: yn['maintenance'] || '',
+    physicals: yn['physicals'] || '',
+    telematics: yn['telematics'] || '',
+    // Coverage
+    liability: val('liability'),
+    cargo: val('cargo'),
+    physdamage: val('physdamage'),
+    extraCoverage: getExtraCoverage(),
+    startDate: val('startDate'),
+    payment: val('payment'),
+    // History
+    priorCarrier: val('priorCarrier'),
+    priorPremium: val('priorPremium'),
+    priorExpiry: val('priorExpiry'),
+    priorPolicyNum: val('priorPolicyNum'),
+    hasClaims: yn['hasClaims'] || 'no',
+    claimsSummary: val('claimsSummary'),
+    lossRuns: (document.querySelector('#screen5 .pill.selected')||{}).textContent||'',
+    cancelled: yn['cancelled'] || '',
+    bankruptcy: yn['bankruptcy'] || '',
+    fraud: yn['fraud'] || '',
+    fein: val('fein'),
+    // Consent
+    legalName: val('legalName'),
+    dob: val('dob'),
+    cdlNumber: val('cdlNumber'),
+  };
+
+  const params = new URLSearchParams();
+  params.append('type', 'carrier');
+  params.append('firstName', val('firstName'));
+  params.append('lastName', val('lastName'));
+  params.append('phone', val('phone'));
+  params.append('email', val('email'));
+  params.append('dotNumber', document.getElementById('fmcsa-dot') ? document.getElementById('fmcsa-dot').textContent : '');
+  params.append('companyName', document.getElementById('fmcsa-company') ? document.getElementById('fmcsa-company').textContent : '');
+  params.append('authorityStatus', document.getElementById('fmcsa-auth') ? document.getElementById('fmcsa-auth').textContent : '');
+  params.append('operationType', document.getElementById('fmcsa-op') ? document.getElementById('fmcsa-op').textContent : '');
+  params.append('operatingRadiusFmcsa', document.getElementById('fmcsa-radius') ? document.getElementById('fmcsa-radius').textContent : '');
+  params.append('powerUnits', document.getElementById('fmcsa-units') ? document.getElementById('fmcsa-units').textContent : '');
+  params.append('cargoClassifications', document.getElementById('fmcsa-cargo') ? document.getElementById('fmcsa-cargo').textContent : '');
+  params.append('safetyRating', document.getElementById('fmcsa-safety') ? document.getElementById('fmcsa-safety').textContent : '');
+  params.append('totalCrashes', document.getElementById('fmcsa-crashes') ? document.getElementById('fmcsa-crashes').textContent : '');
+  params.append('insuranceFilingStatus', document.getElementById('fmcsa-insstatus') ? document.getElementById('fmcsa-insstatus').textContent : '');
+  params.append('driver1CdlClass', d1.cdlClass||'');
+  params.append('driver1Endorsements', d1.endorsements||'');
+  params.append('driver1LicenseState', d1.licenseState||'');
+  params.append('driver1LicenseExpiry', d1.licenseExpiry||'');
+  params.append('driver1YearsLicensed', d1.yearsLicensed||'');
+  params.append('driver1DateHired', d1.dateHired||'');
+  params.append('driver1Violations', d1.violations||'');
+  params.append('driver1Accidents', d1.accidents||'');
+  params.append('truck1Year', t1.year||'');
+  params.append('truck1MakeModel', t1.makeModel||'');
+  params.append('truck1BodyType', t1.bodyType||'');
+  params.append('truck1Vin', t1.vin||'');
+  params.append('truck1Value', t1.value||'');
+  params.append('truck1DatePurchased', t1.datePurchased||'');
+  params.append('truck1Financed', t1.financed||'');
+  params.append('truck1Lienholder', t1.lienholder||'');
+  params.append('truck1Garaging', t1.garaging||'');
+  params.append('truck1AnnualMiles', t1.annualMiles||'');
+  params.append('freightType', val('commodity'));
+  params.append('highValueGoods', yn['highValue']||'no');
+  params.append('maxLoadValue', val('loadValue'));
+  params.append('totalAnnualMiles', val('annualMiles'));
+  params.append('annualRevenue', val('receipts1'));
+  params.append('opRadius', val('opRadius'));
+  params.append('trailersOwned', val('trailers'));
+  params.append('opStates', val('opStates'));
+  params.append('terminal', val('terminal'));
+  params.append('canadaMexico', yn['canadaMexico']||'');
+  params.append('hazmat', yn['hazmat']||'');
+  params.append('targetCargo', yn['targetCargo']||'');
+  params.append('otherTruckers', yn['otherTruckers']||'');
+  params.append('hireEquipment', yn['hireEquipment']||'');
+  params.append('maintenance', yn['maintenance']||'');
+  params.append('physicals', yn['physicals']||'');
+  params.append('telematics', yn['telematics']||'');
+  params.append('liability', val('liability'));
+  params.append('cargo', val('cargo'));
+  params.append('physdamage', val('physdamage'));
+  params.append('extraCoverage', getExtraCoverage());
+  params.append('startDate', val('startDate'));
+  params.append('payment', val('payment'));
+  params.append('priorCarrier', val('priorCarrier'));
+  params.append('priorPremium', val('priorPremium'));
+  params.append('priorExpiry', val('priorExpiry'));
+  params.append('priorPolicyNum', val('priorPolicyNum'));
+  params.append('hasClaims', yn['hasClaims']||'no');
+  params.append('claimsSummary', val('claimsSummary'));
+  params.append('lossRuns', (document.querySelector('#screen5 .pill.selected')||{}).textContent||'');
+  params.append('cancelled', yn['cancelled']||'');
+  params.append('bankruptcy', yn['bankruptcy']||'');
+  params.append('fraud', yn['fraud']||'');
+  params.append('fein', val('fein'));
+  params.append('legalName', val('legalName'));
+  params.append('dob', val('dob'));
+  params.append('cdlNumber', val('cdlNumber'));
+
+  fetch(SCRIPT_URL + '?' + params.toString(), {
+    method: 'GET',
+    mode: 'no-cors'
+  })
+  .then(() => { goTo(7); })
+  .catch(() => { goTo(7); });
+}
+
+window.onload=()=>{addDriver();addTruck();yn['highValue']='no';};
+</script>
+</body>
+</html>
