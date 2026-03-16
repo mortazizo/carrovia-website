@@ -809,7 +809,7 @@ function initSig(){
 
 function clearSig(){if(sigX){sigX.clearRect(0,0,sigC.width,sigC.height);sigMark=false;}}
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUfZ7TYnkdDlJbAFl49ZI2mtGo3HD1gF8h2FAre5_V2TCrOy5SKestYezgSuVzkQg5/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxGc8Nw8KQAO6LELf1ZgFBNx1K4Huq09c80n2K4zqwIV2W_kwat80yw72zes0nvD0Pi/exec';
 
 function val(id){ const el=document.getElementById(id); return el ? el.value.trim() : ''; }
 
@@ -962,19 +962,84 @@ function submitForm(){
     cdlNumber: val('cdlNumber'),
   };
 
-  fetch(SCRIPT_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+  const params = new URLSearchParams();
+  params.append('type', 'carrier');
+  params.append('firstName', val('firstName'));
+  params.append('lastName', val('lastName'));
+  params.append('phone', val('phone'));
+  params.append('email', val('email'));
+  params.append('dotNumber', document.getElementById('fmcsa-dot') ? document.getElementById('fmcsa-dot').textContent : '');
+  params.append('companyName', document.getElementById('fmcsa-company') ? document.getElementById('fmcsa-company').textContent : '');
+  params.append('authorityStatus', document.getElementById('fmcsa-auth') ? document.getElementById('fmcsa-auth').textContent : '');
+  params.append('operationType', document.getElementById('fmcsa-op') ? document.getElementById('fmcsa-op').textContent : '');
+  params.append('operatingRadiusFmcsa', document.getElementById('fmcsa-radius') ? document.getElementById('fmcsa-radius').textContent : '');
+  params.append('powerUnits', document.getElementById('fmcsa-units') ? document.getElementById('fmcsa-units').textContent : '');
+  params.append('cargoClassifications', document.getElementById('fmcsa-cargo') ? document.getElementById('fmcsa-cargo').textContent : '');
+  params.append('safetyRating', document.getElementById('fmcsa-safety') ? document.getElementById('fmcsa-safety').textContent : '');
+  params.append('totalCrashes', document.getElementById('fmcsa-crashes') ? document.getElementById('fmcsa-crashes').textContent : '');
+  params.append('insuranceFilingStatus', document.getElementById('fmcsa-insstatus') ? document.getElementById('fmcsa-insstatus').textContent : '');
+  params.append('driver1CdlClass', d1.cdlClass||'');
+  params.append('driver1Endorsements', d1.endorsements||'');
+  params.append('driver1LicenseState', d1.licenseState||'');
+  params.append('driver1LicenseExpiry', d1.licenseExpiry||'');
+  params.append('driver1YearsLicensed', d1.yearsLicensed||'');
+  params.append('driver1DateHired', d1.dateHired||'');
+  params.append('driver1Violations', d1.violations||'');
+  params.append('driver1Accidents', d1.accidents||'');
+  params.append('truck1Year', t1.year||'');
+  params.append('truck1MakeModel', t1.makeModel||'');
+  params.append('truck1BodyType', t1.bodyType||'');
+  params.append('truck1Vin', t1.vin||'');
+  params.append('truck1Value', t1.value||'');
+  params.append('truck1DatePurchased', t1.datePurchased||'');
+  params.append('truck1Financed', t1.financed||'');
+  params.append('truck1Lienholder', t1.lienholder||'');
+  params.append('truck1Garaging', t1.garaging||'');
+  params.append('truck1AnnualMiles', t1.annualMiles||'');
+  params.append('freightType', val('commodity'));
+  params.append('highValueGoods', yn['highValue']||'no');
+  params.append('maxLoadValue', val('loadValue'));
+  params.append('totalAnnualMiles', val('annualMiles'));
+  params.append('annualRevenue', val('receipts1'));
+  params.append('opRadius', val('opRadius'));
+  params.append('trailersOwned', val('trailers'));
+  params.append('opStates', val('opStates'));
+  params.append('terminal', val('terminal'));
+  params.append('canadaMexico', yn['canadaMexico']||'');
+  params.append('hazmat', yn['hazmat']||'');
+  params.append('targetCargo', yn['targetCargo']||'');
+  params.append('otherTruckers', yn['otherTruckers']||'');
+  params.append('hireEquipment', yn['hireEquipment']||'');
+  params.append('maintenance', yn['maintenance']||'');
+  params.append('physicals', yn['physicals']||'');
+  params.append('telematics', yn['telematics']||'');
+  params.append('liability', val('liability'));
+  params.append('cargo', val('cargo'));
+  params.append('physdamage', val('physdamage'));
+  params.append('extraCoverage', getExtraCoverage());
+  params.append('startDate', val('startDate'));
+  params.append('payment', val('payment'));
+  params.append('priorCarrier', val('priorCarrier'));
+  params.append('priorPremium', val('priorPremium'));
+  params.append('priorExpiry', val('priorExpiry'));
+  params.append('priorPolicyNum', val('priorPolicyNum'));
+  params.append('hasClaims', yn['hasClaims']||'no');
+  params.append('claimsSummary', val('claimsSummary'));
+  params.append('lossRuns', (document.querySelector('#screen5 .pill.selected')||{}).textContent||'');
+  params.append('cancelled', yn['cancelled']||'');
+  params.append('bankruptcy', yn['bankruptcy']||'');
+  params.append('fraud', yn['fraud']||'');
+  params.append('fein', val('fein'));
+  params.append('legalName', val('legalName'));
+  params.append('dob', val('dob'));
+  params.append('cdlNumber', val('cdlNumber'));
+
+  fetch(SCRIPT_URL + '?' + params.toString(), {
+    method: 'GET',
+    mode: 'no-cors'
   })
-  .then(() => {
-    goTo(7);
-  })
-  .catch(() => {
-    // Even if fetch fails silently (no-cors), proceed to success
-    goTo(7);
-  });
+  .then(() => { goTo(7); })
+  .catch(() => { goTo(7); });
 }
 
 window.onload=()=>{addDriver();addTruck();yn['highValue']='no';};
