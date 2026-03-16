@@ -1311,7 +1311,7 @@
     }
   });
 
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUfZ7TYnkdDlJbAFl49ZI2mtGo3HD1gF8h2FAre5_V2TCrOy5SKestYezgSuVzkQg5/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxGc8Nw8KQAO6LELf1ZgFBNx1K4Huq09c80n2K4zqwIV2W_kwat80yw72zes0nvD0Pi/exec';
 
   function submitContact() {
     const fname = document.getElementById('c-fname').value.trim();
@@ -1337,14 +1337,8 @@
     btn.textContent = 'Submitting...';
     btn.disabled = true;
 
-    const payload = { type: 'agency', name, agency, email, phone, states };
-
-    fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
+    const params = new URLSearchParams({ type:'agency', name, agency, email, phone, states });
+    fetch(SCRIPT_URL + '?' + params.toString(), { method:'GET', mode:'no-cors' })
     .then(() => {
       closeModal('agency-modal');
       alert('Application received! We\'ll be in touch within 48 hours.');
